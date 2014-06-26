@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react')
-var Finger = require('../finger')
+var Finger = require('ainojs-finger')
 
 /*CSS
 .container{width:400px;height:400px;overflow:hidden;background:black}

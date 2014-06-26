@@ -71,7 +71,7 @@ var build = function(files) {
                '<body><script>'+script+'</script></body></html>'
       }))
       .pipe(concat(dst))
-      .pipe(gulp.dest(path.join(DIR, BUILD)))
+      .pipe(gulp.dest(BUILD))
     )
   })
   return es.concat.apply(this, tasks)
