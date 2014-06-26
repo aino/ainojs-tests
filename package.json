@@ -1,0 +1,37 @@
+{
+  "name": "ainojs",
+  "version": "1.0.0",
+  "description": "Tests for Aino JavaScript Tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aino/ainojs-tests"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "bugs": {
+    "url": "https://github.com/aino/ainojs-tests/issues"
+  },
+  "homepage": "https://github.com/aino/ainojs-tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aino",
+  "devDependencies": {
+    "jquery": ">=1.10.0",
+    "backbone": "^1.1.2",
+    "browserify": "^4.1.11",
+    "envify": "^1.2.1",
+    "event-stream": "^3.1.5",
+    "gulp": "^3.8.1",
+    "gulp-buffer": "0.0.2",
+    "gulp-concat": "^2.2.0",
+    "gulp-util": "^2.2.17",
+    "jquery": "^2.1.1",
+    "react": "^0.10.0",
+    "reactify": "^0.13.1",
+    "underscore": "^1.6.0",
+    "vinyl-map": "^1.0.1",
+    "vinyl-source-stream": "^0.1.1"
+  }
+}
