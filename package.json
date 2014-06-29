@@ -1,6 +1,6 @@
 {
   "name": "ainojs-tests",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tests for Aino JavaScript Tools",
   "repository": {
     "type": "git",
@@ -8,9 +8,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ainojs-finger": "latest",
+    "ainojs-animate": "latest",
     "ainojs-easing": "latest",
-    "ainojs-animate": "latest"
+    "ainojs-finger": "latest",
+    "ecstatic": "^0.5.4"
   },
   "bugs": {
     "url": "https://github.com/aino/ainojs-tests/issues"

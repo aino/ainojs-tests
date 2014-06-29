@@ -8,6 +8,8 @@ var source = require('vinyl-source-stream')
 var buffer = require('gulp-buffer')
 var concat = require('gulp-concat')
 var path = require('path')
+var http = require('http')
+var ecstatic = require('ecstatic')
 
 var LIBS = ["react", "jquery", "underscore", "backbone"]
 var DIR = 'tests'
@@ -24,7 +26,6 @@ var gulpBrowserify = function(options, bundleOptions, commands) {
     if ( typeof values === 'string' ) values = [values]
     values.forEach(function(value) {
       b[cmd](value)
-      gutil.log('Browserify command: '+cmd)
     })
   }
   return b.bundle(bundleOptions)
@@ -108,8 +109,10 @@ gulp.task('test', function() {
       ), handler )
     })
   })
-  
+  http.createServer(
+    ecstatic({ root: __dirname+'/build', autoIndex: true })
+  ).listen(8000)
   dispatch()
   lib()
-  gutil.log('Tests listening for changes')
+  gutil.log('Tests listening for changes. Server running at http://127.0.0.1:8000')
 })
