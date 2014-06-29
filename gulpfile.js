@@ -24,6 +24,7 @@ var gulpBrowserify = function(options, bundleOptions, commands) {
     if ( typeof values === 'string' ) values = [values]
     values.forEach(function(value) {
       b[cmd](value)
+      gutil.log('Browserify command: '+cmd)
     })
   }
   return b.bundle(bundleOptions)
@@ -47,13 +48,14 @@ var build = function(files) {
   files.forEach(function(name) {
     var src = path.join(__dirname, DIR, name)
     var dst = name.replace(/\.js/,'.html')
+    gutil.log('Compiling to: '+dst)
     tasks.push(
       gulpBrowserify({
         entries: src
       },{
         debug: true
       },{
-        external: LIBS,
+        exclude: LIBS,
         transform: ['reactify']
       })
       .on('error', function(trace) {
@@ -97,8 +99,16 @@ gulp.task('test', function() {
     dispatch(file)
   }
   gulp.watch( DIR+'/*.js', handler )
-  gulp.watch( 'components/*.js', handler )
-  gulp.watch( '*.js', handler )
+  fs.readdir(DIR, function(err, list) {
+    list.forEach(function(name) {
+      /\.js$/.test(name) && gulp.watch( path.join(
+        '../', 
+        'ainojs-'+path.basename(name, '.js'), 
+        path.basename(name) 
+      ), handler )
+    })
+  })
+  
   dispatch()
   lib()
   gutil.log('Tests listening for changes')

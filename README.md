@@ -7,6 +7,7 @@ To run tests:
 
     $ npm install
     $ ./test
+    $ cd build
     $ ./run
 
-http://localhost:8000/build/
+http://localhost:8000/

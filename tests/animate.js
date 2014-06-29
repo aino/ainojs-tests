@@ -1,8 +1,9 @@
 /** @jsx React.DOM */
 
 var React = require('react')
-var Animate = require('../animate')
-var Easing = require('../easing')
+var Easing = require('ainojs-easing')
+
+var Animate = require('../../ainojs-animate/animate')
 
 var App = React.createClass({
   getInitialState: function() {
