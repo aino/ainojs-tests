@@ -70,7 +70,8 @@ var build = function(files) {
         var css = script.match(/\/\*CSS((.|\n)+?)\*\//)
         var style = ( css && css.length > 1 ) ? '<style>'+css[1]+'</style>' : ''
 
-        return '<html><head><title>Test for '+name+'</title><script src="lib.js"></script>'+style+'</head>'+
+        return '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">'+
+               '<title>Test for '+name+'</title><script src="lib.js"></script>'+style+'</head>'+
                '<body><script>'+script+'</script></body></html>'
       }))
       .pipe(concat(dst))
