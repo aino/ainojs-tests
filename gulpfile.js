@@ -54,7 +54,7 @@ var build = function(files) {
       gulpBrowserify({
         entries: src
       },{
-        debug: true
+        debug: false
       },{
         exclude: LIBS,
         transform: ['reactify']

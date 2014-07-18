@@ -8,9 +8,10 @@
   },
   "license": "MIT",
   "dependencies": {
-    "ainojs-animate": "latest",
+    "ainojs-animation": "latest",
     "ainojs-easing": "latest",
     "ainojs-finger": "latest",
+    "ainojs-detect": "latest",
     "ecstatic": "^0.5.4"
   },
   "bugs": {

@@ -12,6 +12,15 @@ var log = []
 
 React.initializeTouchEvents(true)
 
+var Inner = React.createClass({
+  onClick: function(e) {
+    console.log('InnerClick')
+  },
+  render: function() {
+    return <button onClick={this.onClick}>Inner button</button>
+  }
+})
+
 var App = React.createClass({
   getInitialState: function() {
     return {
@@ -39,6 +48,7 @@ var App = React.createClass({
         <TouchClick click={this.onClick} down={this.onDown} 
           up={this.onUp} className={'btn' + (this.state.active ? ' active' : '')}>
           <a href="#/foo">Touch/click/drag me</a>
+          <Inner />
         </TouchClick>
         {info}
         <h2>Forms:</h2>
