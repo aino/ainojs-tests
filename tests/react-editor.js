@@ -27,6 +27,12 @@ var EditorComponent = require('../../ainojs-react-editor/react-editor')
   font:12px/32px sans-serif;
 }
 
+.aino-editor .toolbar button.center{display:none}
+.aino-editor .toolbar.heading button.center{display:block} 
+.aino-editor .toolbar.heading button.bold,
+.aino-editor .toolbar.heading button.italic,
+.aino-editor .toolbar.heading button.list{display:none}
+
 .aino-editor .toolbar .arr {
   position: absolute;
   display: block;
@@ -36,7 +42,7 @@ var EditorComponent = require('../../ainojs-react-editor/react-editor')
   border-width: 0 7px 6px 7px;
   border-color: transparent transparent #333 transparent;
 }
-.aino-editor .toolbar .arr.top{
+.aino-editor .toolbar.top .arr{
   border-width: 6px 7px 0 7px;
   border-color: #333 transparent transparent transparent;
 }
