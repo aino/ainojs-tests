@@ -48,7 +48,17 @@ var build = function(files) {
   gutil.log('Building testfiles: '+files)
   files.forEach(function(name) {
     var src = path.join(__dirname, DIR, name)
-    var dst = name.replace(/\.js/,'.html')
+    var proj = name.replace(/\.js/,'')
+    var dst = proj + '.html'
+    var css = path.join('./', '../', 'ainojs-'+proj, proj+'.css')
+    var cssFile
+    if( fs.existsSync(css) ) {
+      var data = fs.readFileSync(css)
+      tasks.push(
+        gulp.src(css).pipe(gulp.dest(BUILD))
+      )
+      cssFile = proj+'.css'
+    }
     gutil.log('Compiling to: '+dst)
     tasks.push(
       gulpBrowserify({
@@ -69,9 +79,10 @@ var build = function(files) {
         var script = data.toString()
         var css = script.match(/\/\*CSS((.|\n)+?)\*\//)
         var style = ( css && css.length > 1 ) ? '<style>'+css[1]+'</style>' : ''
+        var link = cssFile ? '<link rel="stylesheet" href="'+cssFile+'">' : ''
 
         return '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">'+
-               '<title>Test for '+name+'</title><script src="lib.js"></script>'+style+'</head>'+
+               '<title>Test for '+name+'</title>'+link+'<script src="lib.js"></script>'+style+'</head>'+
                '<body><script>'+script+'</script></body></html>'
       }))
       .pipe(concat(dst))
@@ -98,16 +109,17 @@ gulp.task('test', function() {
   var handler = function(event) {
     var file = path.basename(event.path)
     gutil.log('File '+file+' was '+event.type+', running tasks...')
-    dispatch(file)
+    dispatch(file.replace(/\.[a-z]{0,4}$/,'.js'))
   }
   gulp.watch( DIR+'/*.js', handler )
   fs.readdir(DIR, function(err, list) {
     list.forEach(function(name) {
-      /\.js$/.test(name) && gulp.watch( path.join(
+      var f = path.join(
         '../', 
         'ainojs-'+path.basename(name, '.js'), 
-        path.basename(name) 
-      ), handler )
+        path.basename(name, '.js')+'.*'
+      );
+      /\.js$/.test(name) && gulp.watch( f, handler )
     })
   })
   http.createServer(
