@@ -77,12 +77,12 @@ var build = function(files) {
       .pipe(buffer())
       .pipe(map(function(data, file) {
         var script = data.toString()
-        var css = script.match(/\/\*CSS((.|\n)+?)\*\//)
-        var style = ( css && css.length > 1 ) ? '<style>'+css[1]+'</style>' : ''
+        var head = script.match(/\/\*HEAD((.|\n)+?)\*\//)
+        var inject = head && head[1] ? head[1] : ''
         var link = cssFile ? '<link rel="stylesheet" href="'+cssFile+'">' : ''
 
         return '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">'+
-               '<title>Test for '+name+'</title>'+link+'<script src="lib.js"></script>'+style+'</head>'+
+               '<title>Test for '+name+'</title>'+link+inject+'<script src="lib.js"></script></head>'+
                '<body><script>'+script+'</script></body></html>'
       }))
       .pipe(concat(dst))

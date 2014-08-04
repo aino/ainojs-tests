@@ -3,8 +3,11 @@
 var React = require('react')
 var EditorComponent = require('../../ainojs-react-editor/react-editor')
 
-/*CSS
-.content{margin: 100px}
+/*HEAD
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">
+<style type="text/css">
+.content{outline:none}
+</style>
 */
 
 var App = React.createClass({
@@ -13,10 +16,7 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <EditorComponent className="content" onChange={this.onChange}>
-        <h2>Lorem ipsum</h2>
-        <p>Foo bar dorem</p>
-      </EditorComponent>
+      <EditorComponent className="content" onChange={this.onChange} html="<h2>foo</h2><p>bar</p>" />
     )
   }
 })
