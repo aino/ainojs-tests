@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react')
-var TouchClick = require('../../ainojs-react-touchclick/react-touchclick')
+var TouchClick = require('../../ainojs-react-touchclick/index')
 
 var log = []
 

@@ -2,7 +2,7 @@
 
 var React = require('react')
 var Easing = require('ainojs-easing')
-var Animation = require('../../ainojs-animation/animation')
+var Animation = require('../../ainojs-animation/index')
 
 var App = React.createClass({
 

@@ -37,7 +37,7 @@ var lib = function() {
     noParse: ['jquery','underscore','backbone']
   },{},{
     require: LIBS
-  }).pipe(source())
+  }).pipe(source('foo'))
     .pipe(buffer())
     .pipe(concat('lib.js'))
     .pipe(gulp.dest(BUILD))
@@ -73,7 +73,7 @@ var build = function(files) {
         console.error(trace)
         fs.writeFileSync(path.join(BUILD, dst), trace)
       })
-      .pipe(source())
+      .pipe(source('foo'))
       .pipe(buffer())
       .pipe(map(function(data, file) {
         var script = data.toString()
@@ -107,19 +107,22 @@ var dispatch = function(file) {
 
 gulp.task('test', function() {
   var handler = function(event) {
-    var file = path.basename(event.path)
-    gutil.log('File '+file+' was '+event.type+', running tasks...')
-    dispatch(file.replace(/\.[a-z]{0,4}$/,'.js'))
+    var paths = path.dirname(event.path).split(path.sep)
+    var name = paths[paths.length-1].replace(/ainojs\-/,'')
+    gutil.log(name+' was '+event.type+', running tasks...')
+    dispatch(name)
   }
   gulp.watch( DIR+'/*.js', handler )
   fs.readdir(DIR, function(err, list) {
     list.forEach(function(name) {
       var f = path.join(
         '../', 
-        'ainojs-'+path.basename(name, '.js'), 
-        path.basename(name, '.js')+'.*'
+        'ainojs-'+path.basename(name, '.js'),
+        'index.*'
       );
-      /\.js$/.test(name) && gulp.watch( f, handler )
+      console.log('F', f)
+      if( /\.js$/.test(name) )
+        gulp.watch( f, handler )
     })
   })
   http.createServer(

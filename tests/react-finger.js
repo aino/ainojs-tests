@@ -3,7 +3,7 @@
 var React = require('react')
 var $ = require('jquery')
 var Detect = require('ainojs-detect')
-var FingerComponent = require('../../ainojs-react-finger/react-finger')
+var FingerComponent = require('../../ainojs-react-finger/index')
 
 var App = React.createClass({
   getDefaultProps: function() {

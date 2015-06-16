@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react')
-var EditorComponent = require('../../ainojs-react-editor/react-editor')
+var EditorComponent = require('../../ainojs-react-editor/index')
 
 /*HEAD
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.css">

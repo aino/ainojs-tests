@@ -3,7 +3,7 @@
 var React = require('react')
 var $ = require('jquery')
 var Detect = require('ainojs-detect')
-var Finger = require('../../ainojs-finger/finger')
+var Finger = require('../../ainojs-finger/index')
 var Animation = require('ainojs-animation')
 
 /*CSS

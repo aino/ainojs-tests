@@ -1,5 +1,5 @@
 
-var EventMixin = require('../../ainojs-events/events')
+var EventMixin = require('../../ainojs-events/index')
 
 function A() {}
 EventMixin.call(A.prototype)
