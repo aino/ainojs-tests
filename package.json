@@ -9,10 +9,11 @@
   "license": "MIT",
   "dependencies": {
     "ainojs-animation": "latest",
+    "ainojs-detect": "latest",
     "ainojs-easing": "latest",
     "ainojs-finger": "latest",
-    "ainojs-detect": "latest",
-    "ecstatic": "^0.5.4"
+    "ecstatic": "^0.5.4",
+    "raf": "^3.0.0"
   },
   "bugs": {
     "url": "https://github.com/aino/ainojs-tests/issues"

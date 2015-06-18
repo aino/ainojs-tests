@@ -52,6 +52,7 @@ var build = function(files) {
     var dst = proj + '.html'
     var css = path.join('./', '../', 'ainojs-'+proj, proj+'.css')
     var cssFile
+    console.log(src, proj)
     if( fs.existsSync(css) ) {
       var data = fs.readFileSync(css)
       tasks.push(
@@ -112,7 +113,10 @@ gulp.task('test', function() {
     gutil.log(name+' was '+event.type+', running tasks...')
     dispatch(name)
   }
-  gulp.watch( DIR+'/*.js', handler )
+  gulp.watch( DIR+'/*.js', function(e) {
+    gutil.log('Test file was changed')
+    dispatch(path.basename(e.path, '.js'))
+  })
   fs.readdir(DIR, function(err, list) {
     list.forEach(function(name) {
       var f = path.join(

@@ -4,37 +4,40 @@ var React = require('react')
 var $ = require('jquery')
 var Detect = require('ainojs-detect')
 var Finger = require('../../ainojs-finger/index')
-var Animation = require('ainojs-animation')
+var RequestFrame = require('raf')
 
-/*CSS
+/*HEAD
+<style>
 *{margin:0;padding:0}
 .container{position:absolute;width:100%;height:600px;overflow:hidden}
 .container .items{}
 .container .items .item{
   background-position:50% 50%;
   background-repeat:no-repeat; 
-  background-size:cover;position:absolute;left:0;
+  background-size:cover;position:absolute;left:0;top:0;
 }
 .btn{position:absolute;top:20px;left:20px}
-.btn.ll{left:200px}
-#log{position:absolute;top:40px;left:20px;color:#fff;font:12px/16px sans-serif}
-.tools{position:absolute;bottom:0;height:80px;background:rgba(0,0,0,.7);width:100%}
+.btn.ll{left:100px}
+</style>
 */
+
+var loops = []
+
+;(function loop() {
+  RequestFrame(loop)
+  loops.forEach(function(fn) { fn() })
+}())
 
 var App = React.createClass({
   getInitialState: function() {
     return { 
       width: 0,
-      topacity: 0,
+      height: 0,
       tapped: false
     }
   },
-  tanimation: new Animation({ duration: 1000}),
-  componentWillMount: function() {
-    this.tanimation.on('frame', function(e) {
-      this.setState({ topacity: e.value})
-    }.bind(this))
-  },
+  x: 0,
+  y: 0,
   getDefaultProps: function() {
     return {
       data: [
@@ -49,47 +52,80 @@ var App = React.createClass({
   },
   componentDidMount: function() {
     var container = this.getDOMNode().firstChild
-    $(window).on('resize', this.setWidth)
-    this.setWidth()
-    this.finger = new Finger(container)
-    this.finger.on('frame', this.onFrame)
-    this.finger.on('tap', this.tap)
+    $(window).on('resize', this.setWidthHeight)
+    this.setWidthHeight()
+    this.fingerX = new Finger(container, {
+      items: 3
+    })
+    this.fingerX.on('change', this.onFrameX)
+    loops.push(this.fingerX.run.bind(this.fingerX))
+    /*
+    this.fingerY = new Finger(container, {
+      items: 3,
+      vertical: true
+    })
+    this.fingerY.on('change', this.onFrameY)
+    loops.push(this.fingerY.run)
+    */
   },
-  onFrame: function(e) {
+  onFrameX: function(e) {
+
+    this.x = e.position
     
-    var style = this.finger.inner.style
+    var style = this.fingerX.inner.style
 
     if (!Detect.translate3d) {
       // this is actually faster than CSS3 translate
+      
       return style.left = e.position + 'px'
     }
-    return style.MozTransform = style.msTransform = style.transform = style.webkitTransform = 'translate3d(' + e.position + 'px,0,0)'
+    this.setTransform()
     
+  },
+  onFrameY: function(e) {
+
+    this.y = e.position
+    
+    var style = this.fingerY.inner.style
+
+    if (!Detect.translate3d) {
+      // this is actually faster than CSS3 translate
+      return style.top = e.position + 'px'
+    }
+    this.setTransform()
+  },
+  setTransform: function() {
+    var style = this.fingerX.inner.style
+    style.MozTransform = style.msTransform = style.transform = style.webkitTransform = 'translate3d('+this.x+'px,'+this.y+'px,0px)'
   },
   tap: function(e) {
     this.setState({ tapped: !this.state.tapped })
-    this.tanimation.animateTo(Number(this.state.tapped))
   },
   animateTo: function(e) {
     e.preventDefault()
-    this.finger.animateTo(1)
+    this.fingerX.animateTo(1)
   },
   jumpTo: function(e) {
     e.preventDefault()
-    this.finger.jumpTo(2)
+    this.fingerX.jumpTo(2)
   },
   componentWillUnmount: function() {
-    $(window).off('resize', this.setWidth)
+    $(window).off('resize', this.setWidthHeight)
   },
-  setWidth: function() {
-    this.setState({ width: $(this.getDOMNode()).width() })
+  setWidthHeight: function() {
+    this.setState({ 
+      width: $(this.getDOMNode()).width(),
+      height: $(this.getDOMNode()).height() 
+    })
   },
   render: function() {
     var w = this.state.width
+    var h = this.state.height
     var items = this.props.data.map(function(item, i) {
-      return <div className="item" style={{height: '100%', width:w, left: (i*w), backgroundImage: 'url('+item+')'}} />
+      var x = i%3
+      var y = Math.floor(i/3)
+      return <div className="item" style={{height: h, width:w, top: (y*h), left: (x*w), backgroundImage: 'url('+item+')'}} />
     })
-    var toolstyle = { opacity: this.state.topacity }
 
     return (
       <div>
@@ -99,9 +135,7 @@ var App = React.createClass({
           </div>
           <button className="btn" onClick={this.animateTo}>Animate to 1</button>
           <button className="btn ll" onClick={this.jumpTo}>Jump to 2</button>
-          <div className="tools" style={toolstyle} />
         </div>
-        <h1>Hello<br />You<br />The<br />Rock <br/>Steady<br />Crew</h1>
       </div>
     )
   }
