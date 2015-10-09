@@ -8,9 +8,10 @@ var App = React.createClass({
 
   getInitialState: function() {
     return {
-      left: 200,
+      left: 0,
       top: 0,
-      opacity: 1,
+      rotate: 1,
+      scale: 1,
       toggler: true
     }
   },
@@ -26,19 +27,27 @@ var App = React.createClass({
     this.animation.init(obj)
   },
 
+  componentDidMount: function() {
+    this.node = this.refs.div.getDOMNode()
+  },
+
   onFrame: function(e) {
+    Animation.transform(this.node, e.values)
+    /*
     this.setState({
       left: e.values.left,
       top: e.values.top,
       opacity: e.values.opacity
     })
+    */
   },
 
   move: function() {
     this.animation.animateTo({
       top: Math.floor(Math.random()*500),
       left: Math.floor(Math.random()*1000),
-      opacity: Math.random()
+      scale: Math.random(),
+      rotate: Math.random()*360
     })
   },
 
@@ -46,7 +55,8 @@ var App = React.createClass({
     this.animation.updateTo({
       top: Math.floor(Math.random()*500),
       left: Math.floor(Math.random()*1000),
-      opacity: Math.random()
+      scale: Math.random(),
+      rotate: Math.random()*360
     })
   },
 
@@ -67,14 +77,12 @@ var App = React.createClass({
       width: 100,
       height: 100,
       position: 'absolute',
-      left: this.state.left,
-      top: this.state.top,
-      opacity: this.state.opacity,
-      background: '#000'
+      background: '#000',
+      top: 50
     }
     return (
       <div>
-        <div style={style} />
+        <div ref="div" style={style} />
         <button style={{marginLeft: 400}} onClick={this.move}>Move</button>
         <button onClick={this.update}>Update</button>
         <button onClick={this.pause}>Pause</button>
